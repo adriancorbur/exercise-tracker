@@ -1,23 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import RepetitionExercise from "./components/RepetitionExercise";
+import DurationExercise from "./components/DurationExercise";
 
 function App() {
+  const [screen, setScreen] = useState("menu");
+  const [exercise, setExercise] = useState(null);
+
+  const exercises = [
+    { name: "Running", type: "duration" },
+    { name: "Push Ups", type: "repetition" },
+    { name: "Plank", type: "duration" }
+  ];
+
+  if (screen === "exercise") {
+    if (exercise.type === "repetition") {
+      return (
+        <RepetitionExercise
+          name={exercise.name}
+          goBack={() => setScreen("menu")}
+        />
+      );
+    } else {
+      return (
+        <DurationExercise
+          name={exercise.name}
+          goBack={() => setScreen("menu")}
+        />
+      );
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div style={{ textAlign: "center", marginTop: "40px" }}>
+      <h1>Main Screen</h1>
+
+      {exercises.map((ex, i) => (
+        <button
+          key={i}
+          onClick={() => {
+            setExercise(ex);
+            setScreen("exercise");
+          }}
+          style={{
+            display: "block",
+            margin: "12px auto",
+            padding: "12px 30px",
+            fontSize: "18px"
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {ex.name}
+        </button>
+      ))}
     </div>
   );
 }
