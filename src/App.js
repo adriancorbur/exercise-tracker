@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 import RepetitionExercise from "./components/RepetitionExercise";
 import DurationExercise from "./components/DurationExercise";
+import RunningExercise from "./components/RunningExercise";
 
 function App() {
   const [screen, setScreen] = useState("menu");
   const [exercise, setExercise] = useState(null);
 
   const exercises = [
-    { name: "Running", type: "duration" },
+    { name: "Running", type: "running" },
     { name: "Push Ups", type: "repetition" },
     { name: "Plank", type: "duration" }
   ];
 
   if (screen === "exercise") {
+
+    if (exercise.type === "running") {
+      return (
+        <RunningExercise
+          name={exercise.name}
+          goBack={() => setScreen("menu")}
+        />
+      );
+    }
+
     if (exercise.type === "repetition") {
       return (
         <RepetitionExercise
@@ -20,7 +31,9 @@ function App() {
           goBack={() => setScreen("menu")}
         />
       );
-    } else {
+    }
+
+    if (exercise.type === "duration") {
       return (
         <DurationExercise
           name={exercise.name}
@@ -28,6 +41,7 @@ function App() {
         />
       );
     }
+
   }
 
   return (
